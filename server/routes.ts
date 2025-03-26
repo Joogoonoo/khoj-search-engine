@@ -1,7 +1,7 @@
 import express, { type Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { searchSchema } from "@shared/schema";
+import { searchSchema, insertWebpageSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 
@@ -73,6 +73,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         error: "Failed to get webpages" 
       });
+    }
+  });
+
+  // Add new webpage (for crawler)
+  apiRouter.post("/webpages", async (req: Request, res: Response) => {
+    try {
+      // Validate the request body
+      const validatedWebpage = insertWebpageSchema.parse(req.body);
+      
+      // Check if webpage with this URL already exists
+      const existingWebpage = await storage.getWebpageByUrl(validatedWebpage.url);
+      if (existingWebpage) {
+        return res.status(409).json({ 
+          error: "A webpage with this URL already exists in the index",
+          webpage: existingWebpage
+        });
+      }
+      
+      // Create new webpage
+      const newWebpage = await storage.createWebpage(validatedWebpage);
+      
+      res.status(201).json(newWebpage);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const validationError = fromZodError(error);
+        res.status(400).json({ 
+          error: validationError.message 
+        });
+      } else {
+        console.error("Failed to add webpage:", error);
+        res.status(500).json({ 
+          error: "Failed to add webpage to index" 
+        });
+      }
     }
   });
 
