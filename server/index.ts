@@ -81,6 +81,11 @@ const serverPromise = startServer();
 // Vercel के लिए module.exports
 // हम निम्नलिखित प्रविष्टि बिंदु को एक्सपोर्ट करेंगे
 export default async (req: Request, res: Response) => {
-  const app = await serverPromise;
-  return app(req, res);
+  try {
+    const app = await serverPromise;
+    return app(req, res);
+  } catch (error) {
+    console.error('Error handling request:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+  }
 };
