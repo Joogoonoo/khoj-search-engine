@@ -1,13 +1,24 @@
 #!/bin/bash
 
-# वेरसेल पर डिप्लॉयमेंट के लिए बिल्ड स्क्रिप्ट
+# Build the frontend and backend for Vercel deployment
+echo "Building frontend and backend for Vercel deployment..."
 
-# फ्रंटएंड (क्लाइंट) बिल्ड करें
-echo "Building frontend with Vite..."
-npm run build:client
+# Install dependencies if needed
+if [ ! -d "node_modules" ]; then
+  echo "Installing dependencies..."
+  npm install
+fi
 
-# बैकएंड (सर्वर और API) बिल्ड करें
-echo "Building backend files..."
-npm run build:api
+# Build the project
+npm run build
 
-echo "Build complete!"
+# Create the 'public' directory if it doesn't exist
+mkdir -p public
+
+# Copy static assets to public directory if needed
+if [ -d "dist" ]; then
+  echo "Copying static assets to public directory..."
+  cp -r dist/* public/
+fi
+
+echo "Build completed successfully!"

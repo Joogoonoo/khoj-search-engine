@@ -1,12 +1,10 @@
 {
   "version": 2,
-  "framework": null,
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/api/search", "destination": "/api/search" },
-    { "source": "/api/webpages", "destination": "/api/webpages" },
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/$1" }
   ],
   "headers": [

@@ -9,7 +9,7 @@ export const webpages = pgTable("webpages", {
   title: text("title").notNull(),
   description: text("description").notNull(),
   content: text("content").notNull(),
-  lastIndexed: timestamp("last_indexed").defaultNow(),
+  lastIndexed: timestamp("last_indexed").notNull().defaultNow(),
 });
 
 export const insertWebpageSchema = createInsertSchema(webpages).omit({

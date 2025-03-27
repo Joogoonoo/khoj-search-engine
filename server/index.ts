@@ -1,6 +1,8 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+// Support for Vercel serverless functions
+import { IncomingMessage, ServerResponse } from "http";
 
 const app = express();
 app.use(express.json());
@@ -80,13 +82,15 @@ const serverPromise = startServer();
 
 // Vercel के लिए module.exports
 // हम निम्नलिखित प्रविष्टि बिंदु को एक्सपोर्ट करेंगे
-export default async (req: Request, res: Response) => {
+export default async (req: IncomingMessage & { query?: any; cookies?: any; body?: any }, res: ServerResponse) => {
   try {
     const app = await serverPromise;
-    return app(req, res);
+    return app(req as unknown as Request, res as unknown as Response);
   } catch (err) {
     console.error('Error handling request:', err);
     const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-    res.status(500).json({ error: 'Internal Server Error', details: errorMessage });
+    res.statusCode = 500;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({ error: 'Internal Server Error', details: errorMessage }));
   }
 };

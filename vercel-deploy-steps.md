@@ -1,35 +1,52 @@
-# Vercel पर डिप्लॉय करने के चरण
+# Vercel Deployment Steps for Khoj Search Engine
 
-## 1. Vercel पर अकाउंट बनाएँ
-- [vercel.com](https://vercel.com) पर जाएँ
-- अपने GitHub/GitLab/Bitbucket अकाउंट से साइन अप करें
+This document outlines the steps needed to successfully deploy the Khoj Search Engine on Vercel.
 
-## 2. नया प्रोजेक्ट बनाएँ
-- Vercel डैशबोर्ड में "Add New" -> "Project" पर क्लिक करें
-- अपना GitHub रिपॉजिटरी (github.com/Joogoonoo/khoj-search-engine) चुनें
+## 1. Setting Up the Project on Vercel
 
-## 3. प्रोजेक्ट कॉन्फिगरेशन
-- फ्रेमवर्क प्रीसेट: "Other" चुनें
-- बिल्ड कमांड: `npm run build` सेट करें
-- आउटपुट डायरेक्टरी: `dist` सेट करें 
-- इन्सटॉलेशन कमांड: `npm install` सेट करें
+1. Create a new project on Vercel and connect it to your GitHub repository.
+2. In the project settings, configure the following:
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+   - Install Command: `npm install`
 
-## 4. एनवायरनमेंट वेरिएबल्स
-आवश्यकतानुसार कोई एनवायरनमेंट वेरिएबल्स जोड़ें।
+## 2. Environment Variables
 
-## 5. डिप्लॉय करें
-- "Deploy" बटन पर क्लिक करें
-- डिप्लॉय होने का इंतजार करें
-- एक बार पूरा होने पर, आपको एक लिंक दिया जाएगा (उदाहरण: khoj-search-engine.vercel.app)
+No sensitive environment variables are required for this project.
 
-## 6. अपने प्रोजेक्ट की जांच करें
-- डिप्लॉयमेंट लिंक पर जाएँ और सुनिश्चित करें कि सब कुछ सही तरीके से काम कर रहा है
-- लॉग्स, प्रदर्शन, और अन्य मेट्रिक्स को Vercel डैशबोर्ड पर देखें
+## 3. Vercel Specific Configuration
 
-## 7. (वैकल्पिक) कस्टम डोमेन जोड़ें
-- प्रोजेक्ट सेटिंग्स में "Domains" सेक्शन पर जाएँ
-- अपना कस्टम डोमेन जोड़ें और DNS सेटिंग्स का पालन करें
+The project includes the following Vercel-specific files:
 
-## 8. ऑटोमेटिक डिप्लॉयमेंट
-- GitHub पर हर पुश के बाद Vercel अपने आप आपके एप्लिकेशन को फिर से डिप्लॉय करेगा
-- हर ब्रांच के लिए अलग प्रीव्यू URL प्राप्त करें
+- **vercel.json**: Configures routing and environment settings for Vercel deployment
+- **api/**: Contains serverless functions for Vercel's API routes
+- **vercel-build.sh**: Custom build script for Vercel deployment
+
+## 4. Troubleshooting Common Issues
+
+### API Routes Not Working
+
+If API routes return 404 errors, verify:
+- The API route files are correctly formatted as serverless functions
+- The routing configuration in vercel.json is correct
+- The paths in frontend API requests match the API route paths
+
+### Build Errors
+
+If encountering build errors:
+- Check the build logs in the Vercel dashboard
+- Ensure all dependencies are correctly installed
+- Verify the TypeScript configuration is compatible with Vercel
+
+## 5. Development vs Production
+
+- **Development**: Uses Express server with Vite for frontend development
+- **Production**: Uses Vercel's serverless functions and static site hosting
+
+## 6. Deployment Workflow
+
+The typical deployment workflow is:
+1. Push code to the connected GitHub repository
+2. Vercel automatically builds and deploys the application
+3. Check the deployment logs for any issues
+4. Verify the deployed application functions correctly

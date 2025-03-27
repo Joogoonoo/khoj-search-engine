@@ -34,13 +34,7 @@ export default function CrawlerPage() {
   // Mutation to add a new webpage
   const addWebpageMutation = useMutation({
     mutationFn: async (data: typeof form.getValues) => {
-      return await apiRequest('/api/webpages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      return await apiRequest('POST', '/api/webpages', data);
     },
     onSuccess: () => {
       toast({
@@ -236,7 +230,7 @@ export default function CrawlerPage() {
                       
                       <div className="mt-2 flex items-center justify-between">
                         <span className="text-xs text-gray-500">
-                          अंतिम इंडेक्स: {new Date(webpage.lastIndexed).toLocaleString()}
+                          अंतिम इंडेक्स: {webpage.lastIndexed ? new Date(webpage.lastIndexed).toLocaleString() : 'कभी नहीं'}
                         </span>
                         
                         <Button
