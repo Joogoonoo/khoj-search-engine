@@ -36,7 +36,8 @@ app.use((req, res, next) => {
   next();
 });
 
-(async () => {
+// Vercel उत्पादन पर्यावरण में कॉलबैक के साथ काम करता है
+const startServer = async () => {
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -56,15 +57,30 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
-})();
+  // Vercel पर होस्ट करने के लिए, हम process.env.PORT का उपयोग करेंगे
+  // अगर कोई पोर्ट एनवायरनमेंट वेरिएबल में नहीं है, तो 5000 का उपयोग करेंगे
+  const port = process.env.PORT || 5000;
+  
+  // Vercel सेरवलेस फंक्शन के लिए, हम express app को एक्सपोर्ट करेंगे
+  // लेकिन डेवलपमेंट मोड में हम सर्वर चलाएंगे
+  if (process.env.NODE_ENV !== 'production') {
+    server.listen({
+      port: Number(port),
+      host: "0.0.0.0",
+    }, () => {
+      log(`serving on port ${port}`);
+    });
+  }
+  
+  return app;
+};
+
+// स्टार्ट सर्वर और एप्लिकेशन को एक्सपोर्ट करें
+const serverPromise = startServer();
+
+// Vercel के लिए module.exports
+// हम निम्नलिखित प्रविष्टि बिंदु को एक्सपोर्ट करेंगे
+export default async (req: Request, res: Response) => {
+  const app = await serverPromise;
+  return app(req, res);
+};
