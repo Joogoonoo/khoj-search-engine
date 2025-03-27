@@ -1,0 +1,4 @@
+theme: jekyll-theme-cayman
+title: खोज - Search Engine
+description: A Google-like search engine with basic search functionality and results display
+baseurl: /khoj-search-engine

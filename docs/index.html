@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4285f4">
+  <title>खोज - Search Engine</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4285f4;
+      --primary-dark: #3367d6;
+      --background: #ffffff;
+      --text: #202124;
+      --border: #dfe1e5;
+      --hover: #f8f9fa;
+      --footer-bg: #f2f2f2;
+      --footer-text: #70757a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 20px;
+    }
+
+    .header a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 15px;
+      font-size: 14px;
+    }
+
+    .header a:hover {
+      text-decoration: underline;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      margin-top: -100px;
+    }
+
+    .logo {
+      font-size: 64px;
+      color: var(--primary-color);
+      font-weight: 400;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-icon {
+      width: 80px;
+      height: 80px;
+      margin-right: 10px;
+    }
+
+    .search-container {
+      width: 100%;
+      max-width: 584px;
+      margin-bottom: 30px;
+    }
+
+    .search-box {
+      display: flex;
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 1px 6px rgba(32, 33, 36, 0.1);
+      transition: box-shadow 0.2s, border 0.2s;
+    }
+
+    .search-box:hover,
+    .search-box:focus-within {
+      box-shadow: 0 1px 8px rgba(32, 33, 36, 0.2);
+      border-color: rgba(223, 225, 229, 0);
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      padding: 5px;
+    }
+
+    .search-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      background-color: var(--hover);
+      border: 1px solid transparent;
+      padding: 10px 16px;
+      border-radius: 4px;
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer {
+      background-color: var(--footer-bg);
+      padding: 15px 20px;
+      color: var(--footer-text);
+      font-size: 14px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--footer-text);
+      text-decoration: none;
+      margin-right: 20px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 650px) {
+      .main {
+        margin-top: -50px;
+      }
+
+      .logo {
+        font-size: 48px;
+      }
+
+      .logo-icon {
+        width: 60px;
+        height: 60px;
+      }
+
+      .search-container {
+        width: 90%;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a href="https://github.com/Joogoonoo/khoj-search-engine" target="_blank">GitHub</a>
+    <a href="crawler.html">वेब क्रॉलर</a>
+  </header>
+
+  <main class="main">
+    <div class="logo">
+      <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+      </svg>
+      <span>खोज</span>
+    </div>
+    
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="यहां खोजें...">
+      </div>
+      <div class="search-buttons">
+        <button class="btn">खोज करें</button>
+        <button class="btn">मुझे आज का शब्द दिखाएं</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <div>
+        <a href="#">हमारे बारे में</a>
+        <a href="#">गोपनीयता</a>
+        <a href="#">शर्तें</a>
+      </div>
+      <div>
+        <a href="https://github.com/Joogoonoo/khoj-search-engine" target="_blank">GitHub पर फोर्क करें</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // सिंपल डेमो इंटरैक्शन
+    document.querySelector('.search-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        alert('आपने खोजा: ' + this.value);
+      }
+    });
+    
+    document.querySelector('.search-buttons').children[0].addEventListener('click', function() {
+      const query = document.querySelector('.search-input').value;
+      alert('आपने खोजा: ' + query);
+    });
+    
+    document.querySelector('.search-buttons').children[1].addEventListener('click', function() {
+      const words = ['आत्मनिर्भरता', 'डिजिटलीकरण', 'साइबरसुरक्षा', 'जनसंचार', 'विकसित'];
+      const randomWord = words[Math.floor(Math.random() * words.length)];
+      document.querySelector('.search-input').value = randomWord;
+    });
+  </script>
+</body>
+</html>
