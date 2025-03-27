@@ -34,6 +34,7 @@ export const insertSearchQuerySchema = createInsertSchema(searchQueries).omit({
 export const searchSchema = z.object({
   query: z.string().min(1).max(100),
   page: z.number().int().positive().default(1),
+  pageSize: z.number().int().positive().min(1).max(50).default(10),
 });
 
 export type Webpage = typeof webpages.$inferSelect;

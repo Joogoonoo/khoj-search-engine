@@ -84,8 +84,9 @@ export default async (req: Request, res: Response) => {
   try {
     const app = await serverPromise;
     return app(req, res);
-  } catch (error) {
-    console.error('Error handling request:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+  } catch (err) {
+    console.error('Error handling request:', err);
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ error: 'Internal Server Error', details: errorMessage });
   }
 };
